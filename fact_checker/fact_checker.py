@@ -15,8 +15,6 @@ from fact_checker.agent_prompts import CHAT_MESSAGE
 from fact_checker.tools import get_entailment_recognition_tool, get_query_analyse_tool
 
 logger.add(sys.stdout, level="INFO")
-# os.environ['OPENAI_API_BASE'] = ""
-os.environ['OPENAI_API_KEY'] = "your-openai-token"
 
 class FactChecker(object):
     
@@ -24,12 +22,14 @@ class FactChecker(object):
         self,
         model="gpt-3.5-turbo",
         temperature=0.2,
+        openai_api_key=None,
         max_retries=3,
         ):
         
         llm = ChatOpenAI(
             temperature=temperature,
             model=model,
+            openai_api_key=openai_api_key,
             max_retries=max_retries)
         qa_tool = get_query_analyse_tool(llm=llm)
         er_tool = get_entailment_recognition_tool(llm=llm)
